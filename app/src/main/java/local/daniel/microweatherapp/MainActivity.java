@@ -28,12 +28,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private HttpUrl buildWeatherUrl() {
-        String api_key = "b6907d289e10d714a6e88b30761fae22";
         return new HttpUrl.Builder()
                 .scheme("https")
                 .host("samples.openweathermap.org")
-                .addPathSegments("data/2.5")
-                .addQueryParameter("appid", api_key)
+                .addPathSegments("data/2.5/")
                 .build();
     }
 }
