@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import local.daniel.microweatherapp.model.WeatherData;
+import local.daniel.microweatherapp.retrofit.OpenWeatherMap;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -25,6 +30,24 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
+
+        OpenWeatherMap openWeatherMap = retrofit.create(OpenWeatherMap.class);
+        Call<WeatherData> weatherCall = openWeatherMap.getWeather("London");
+
+        weatherCall.enqueue(new Callback<WeatherData>() {
+            @Override
+            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                System.out.println("success");
+                System.out.println(response.body().getName());
+            }
+
+            @Override
+            public void onFailure(Call<WeatherData> call, Throwable t) {
+                System.out.println("failed =(");
+            }
+        });
+
+
     }
 
     private HttpUrl buildWeatherUrl() {

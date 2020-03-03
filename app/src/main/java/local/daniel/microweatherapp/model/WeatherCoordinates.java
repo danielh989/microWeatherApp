@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 class WeatherCoordinates {
-    Double lon;
-    Double lat;
+    private Double lon;
+    private Double lat;
 }
