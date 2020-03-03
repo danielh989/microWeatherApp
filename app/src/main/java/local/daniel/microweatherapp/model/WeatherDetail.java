@@ -1,5 +1,10 @@
 package local.daniel.microweatherapp.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 class WeatherDetail {
     private Double temp;
     private Integer pressure;
