@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import local.daniel.microweatherapp.model.WeatherData;
+import local.daniel.microweatherapp.model.WeatherDetail;
 import local.daniel.microweatherapp.retrofit.OpenWeatherMap;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -34,15 +35,18 @@ public class MainActivity extends AppCompatActivity {
         OpenWeatherMap openWeatherMap = retrofit.create(OpenWeatherMap.class);
         Call<WeatherData> weatherCall = openWeatherMap.getWeather("London");
 
+        System.out.println(weatherCall.request().url().toString());
+
         weatherCall.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
                 System.out.println("success");
-                System.out.println(response.body().getName());
+                System.out.println(response.body().getMain().getTemp());
             }
 
             @Override
             public void onFailure(Call<WeatherData> call, Throwable t) {
+                System.out.println(t.getMessage());
                 System.out.println("failed =(");
             }
         });
