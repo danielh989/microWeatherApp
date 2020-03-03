@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-class WeatherDetail {
+public class WeatherDetail {
     private Double temp;
     private Integer pressure;
     private Integer humidity;

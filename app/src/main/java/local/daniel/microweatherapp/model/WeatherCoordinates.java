@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-class WeatherCoordinates {
+public class WeatherCoordinates {
     private Double lon;
     private Double lat;
 }

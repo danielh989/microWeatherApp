@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class WeatherData {
     private WeatherCoordinates coord;
-    private WeatherDetail details;
+    private WeatherDetail main;
     private String name;
     private Integer cod;
 }
