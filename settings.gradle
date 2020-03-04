@@ -1,0 +1,2 @@
+rootProject.name='microWeatherApp'
+include ':app'
