@@ -10,4 +10,5 @@ public class WeatherData {
     private WeatherDetail main;
     private String name;
     private Integer cod;
+    private WeatherSys sys;
 }

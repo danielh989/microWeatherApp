@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static OkHttpClient httpClient = new OkHttpClient();
     TextView tempTxt;
+    TextView cityTxt;
     Button searchBtn;
     EditText cityBox;
     @Override
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         cityBox = (EditText) findViewById(R.id.cityBox);
         searchBtn = (Button) findViewById(R.id.search);
         tempTxt = (TextView) findViewById(R.id.temp);
+        cityTxt = (TextView) findViewById(R.id.city);
 
         OpenWeatherMap openWeatherMap = retrofit.create(OpenWeatherMap.class);
 
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("success");
                 WeatherData weatherData = response.body();
                 tempTxt.setText(weatherData.getMain().getTemp().toString());
+                cityTxt.setText(weatherData.getName()+", "+weatherData.getSys().getCountry());
             }
 
             @Override
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private HttpUrl buildWeatherUrl() {
         return new HttpUrl.Builder()
                 .scheme("https")
-                .host("samples.openweathermap.org")
+                .host("api.openweathermap.org")
                 .addPathSegments("data/2.5/")
                 .build();
     }
