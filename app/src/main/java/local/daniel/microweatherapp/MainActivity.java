@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 refreshCityWeather(openWeatherMap, cityBox.getText().toString());
             }
         });
-
-
     }
 
     private void refreshCityWeather(OpenWeatherMap openWeatherMap, String cityName) {
@@ -68,19 +66,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
 
-
                 System.out.println("success");
                 WeatherData weatherData = response.body();
-                tempTxt.setText(df2.format(convertFarenheitToCelcius(weatherData.getMain().getTemp()))+"°");
-                cityTxt.setText(weatherData.getName() + ", " + weatherData.getSys().getCountry());
+                try {
+                    tempTxt.setText(df2.format(convertFarenheitToCelcius(weatherData.getMain().getTemp())) + "°");
+                    cityTxt.setText(weatherData.getName() + ", " + weatherData.getSys().getCountry());
+                } catch (Exception e) {
+                    notFound("not found");
+                }
             }
 
             @Override
             public void onFailure(Call<WeatherData> call, Throwable t) {
-                System.out.println(t.getMessage());
-                System.out.println("failed =(");
+                notFound("no internet");
             }
         });
+    }
+
+    private void notFound(String notFound) {
+        tempTxt.setText(notFound);
+        cityTxt.setText("=(");
     }
 
     private Double convertFarenheitToCelcius(Double kelvin) {
