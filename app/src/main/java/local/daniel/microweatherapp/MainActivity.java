@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import local.daniel.microweatherapp.model.WeatherData;
 import local.daniel.microweatherapp.retrofit.OpenWeatherMap;
 import okhttp3.HttpUrl;
@@ -20,11 +22,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final double KELVIN_DELTA = 273d;
     private static OkHttpClient httpClient = new OkHttpClient();
     TextView tempTxt;
     TextView cityTxt;
     Button searchBtn;
     EditText cityBox;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 refreshCityWeather(openWeatherMap, cityBox.getText().toString());
             }
         });
-     
-
-
 
 
     }
@@ -65,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
         weatherCall.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+
+
                 System.out.println("success");
                 WeatherData weatherData = response.body();
-                tempTxt.setText(weatherData.getMain().getTemp().toString());
-                cityTxt.setText(weatherData.getName()+", "+weatherData.getSys().getCountry());
+                tempTxt.setText(df2.format(convertFarenheitToCelcius(weatherData.getMain().getTemp()))+"°");
+                cityTxt.setText(weatherData.getName() + ", " + weatherData.getSys().getCountry());
             }
 
             @Override
@@ -77,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("failed =(");
             }
         });
+    }
+
+    private Double convertFarenheitToCelcius(Double kelvin) {
+        return (kelvin - KELVIN_DELTA);
     }
 
     private HttpUrl buildWeatherUrl() {
